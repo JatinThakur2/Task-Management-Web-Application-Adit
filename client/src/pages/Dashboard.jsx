@@ -16,6 +16,11 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [editing, setEditing] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    if (editing) setShowForm(true);
+  }, [editing]);
 
   // Debounce the search box so we are not firing a request on every keystroke.
   useEffect(() => {
@@ -53,15 +58,22 @@ export default function Dashboard() {
     fetchTasks();
   }, [fetchTasks]);
 
+  const handleCancel = () => {
+    setEditing(null);
+    setShowForm(false);
+  };
+
   const createTask = async (data) => {
     await api.post('/tasks', data);
     setPage(1);
+    setShowForm(false);
     await fetchTasks();
   };
 
   const updateTask = async (data) => {
     await api.put(`/tasks/${editing._id}`, data);
     setEditing(null);
+    setShowForm(false);
     await fetchTasks();
   };
 
@@ -84,11 +96,23 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard">
-      <TaskForm
-        initial={editing}
-        onSubmit={editing ? updateTask : createTask}
-        onCancel={() => setEditing(null)}
-      />
+      {showForm ? (
+        <TaskForm
+          initial={editing}
+          onSubmit={editing ? updateTask : createTask}
+          onCancel={handleCancel}
+        />
+      ) : (
+        <div className="add-task-bar">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => setShowForm(true)}
+          >
+            + Add Task
+          </button>
+        </div>
+      )}
 
       <section className="task-panel">
         <TaskFilters

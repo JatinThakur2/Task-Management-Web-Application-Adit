@@ -64,7 +64,7 @@ export default function TaskForm({ initial, onSubmit, onCancel }) {
         <button type="submit" className="btn btn-primary" disabled={submitting}>
           {initial ? 'Update task' : 'Add task'}
         </button>
-        {initial && (
+        {onCancel && (
           <button type="button" className="btn btn-ghost" onClick={onCancel}>
             Cancel
           </button>

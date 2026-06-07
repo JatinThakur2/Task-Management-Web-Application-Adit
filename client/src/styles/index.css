@@ -97,6 +97,11 @@ a:hover {
 .navbar-user {
   color: var(--muted);
   font-size: 0.9rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  min-width: 0;
 }
 
 /* Buttons */
@@ -239,6 +244,16 @@ label input {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.add-task-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .task-form,
@@ -412,5 +427,13 @@ label input {
 
   .filter-tabs {
     justify-content: space-between;
+  }
+
+  .navbar-user {
+    display: none;
+  }
+
+  .navbar-actions {
+    gap: 0.5rem;
   }
 }
